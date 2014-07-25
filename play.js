@@ -19,8 +19,8 @@ var play_state = {
         this.physics.arcade.overlap(this.bullets, this.meteorites, this.destoroy_bullet_meteorite, null, this);
         this.make_background_stars();
     },
-    /*
-    render:function(){
+    
+    /*render:function(){
         this.game.debug.body(this.ship);
         this.meteorites.forEach(function (e) {
                 this.game.debug.body(e);
@@ -28,22 +28,19 @@ var play_state = {
         this.bullets.forEach(function (e) {
                 this.game.debug.body(e);
             }, this);
-    },
-    */
-
+    },*/
+    
     destoroy_bullet_meteorite:function(bullet, meteorite){
         bullet.kill();
         meteorite.damage(1);
-        if (meteorite.health === 0){
+        if (meteorite.health === 0)
             this.aumentar_puntaje();
-        };
     },
     fire_bullet:function(){
         if (this.fireButton.isDown && this.ship.alive && (this.time.now > this.fire_time)) {
             var bullet = this.bullets.getFirstDead();
-            if(!bullet) {
-             return;
-            }
+            if(!bullet)
+                return;
             bullet.lifespan = 2200;
             bullet.reset(this.ship.body.x+20, this.ship.body.y+8);
             bullet.animations.play('w');
@@ -155,16 +152,14 @@ var play_state = {
                 this.stars[i].x = 432;
             }
             var star;
-            if (this.stars[i].texture == this.texture1){
+            if (this.stars[i].texture == this.texture1)
                 star = this.star1;
-            } else {
+            else
                 star = this.star2;
-            }
-            if (i === 0 || i == 100){
+            if (i === 0 || i == 100)
                 this.stars[i].texture.renderXY(star, this.stars[i].x, this.stars[i].y, true);
-            } else {
+            else
                 this.stars[i].texture.renderXY(star, this.stars[i].x, this.stars[i].y, false);
-            }
         }
     },
     gameover: function(){
@@ -181,11 +176,10 @@ var play_state = {
         this.state.start('menu');
     },
     stop_move: function(){
-        if (this.ship.body.velocity.y>0){
+        if (this.ship.body.velocity.y>0)
             this.ship.animations.play('up_down');
-        } else {
+        else
             this.ship.animations.play('down_up');
-        }
     },
     aumentar_puntaje: function(){
         score += 1;
