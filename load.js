@@ -1,7 +1,6 @@
 'use strict';
 var load_state = {
     preload: function() {
-
         this.load.atlasJSONHash('explocion', 'assets/explocion.png', 'assets/explocion.json');
         this.load.atlasJSONHash('ship', 'assets/ship.png', 'assets/ship.json');
         this.load.atlasJSONHash('meteorite', 'assets/meteo.png', 'assets/meteo.json');
