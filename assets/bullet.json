@@ -30,5 +30,37 @@
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
 	"sourceSize": {"w":16,"h":10}
+},
+{
+	"filename": "run04",
+	"frame": {"x":0,"y":10,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
+},
+{
+	"filename": "run05",
+	"frame": {"x":16,"y":10,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":-5,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
+},
+{
+	"filename": "run06",
+	"frame": {"x":32,"y":10,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
+},
+{
+	"filename": "run07",
+	"frame": {"x":48,"y":10,"w":16,"h":10},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":10},
+	"sourceSize": {"w":16,"h":10}
 }]
 }
