@@ -16,8 +16,8 @@ var play_state = {
         this.ship_animations();
         this.ship_move();
         this.fire_bullet();
-        this.physics.arcade.overlap(this.ship, this.meteorites, this.gameover, null, this);
-        this.physics.arcade.overlap(this.bullets, this.meteorites, this.destroy_bullet_meteorite, null, this);
+        this.physics.arcade.overlap(this.ship, this.meteorites, this.damage_ship, null, this);
+        this.physics.arcade.overlap(this.bullets, this.meteorites, this.damage_meteorite, null, this);
         this.make_background_stars();
     },
     
@@ -31,8 +31,15 @@ var play_state = {
             }, this);*/
     },
     
-    destroy_bullet_meteorite:function(bullet, meteorite){
-        meteorite.damage(bullet.damage);
+    damage_ship:function(ship,meteorite){
+        ship.damage(meteorite.danio);
+        meteorite.kill();
+        if(ship.health == 0)
+            this.gameover();
+    },
+
+    damage_meteorite:function(bullet, meteorite){
+        meteorite.damage(bullet.danio);
         bullet.kill();        
         if(meteorite.health === 0)
             this.aumentar_puntaje();
@@ -57,7 +64,7 @@ var play_state = {
                 e.animations.add('redBullet', [0,1,2,3], 30, true);
                 e.animations.add('lowBlueBullet', [4,5,6,7], 30, true);
                 e.animations.play('redBullet');
-                e.damage = 1;
+                e.danio = 1;
             }, this);
         this.bullets.enableBody = true;
         this.physics.enable(this.bullets, Phaser.Physics.ARCADE);
@@ -95,6 +102,8 @@ var play_state = {
         this.meteorites.createMultiple(20, 'meteorite');
         this.meteorites.forEach(function (e) {
                 e.animations.add('rotar', [0,1,2,3], 10, true);
+                e.animations.play('rotar');
+                e.danio = 1;
             }, this);
         this.meteorites.enableBody = true;
         this.physics.enable(this.meteorites, Phaser.Physics.ARCADE);
@@ -114,7 +123,6 @@ var play_state = {
 
     add_meteorite: function(x, y, velocity) {
         var meteorite = this.meteorites.getFirstDead();
-        meteorite.animations.play('rotar');
         meteorite.reset(x, y);
         meteorite.body.velocity.x = -velocity;
         meteorite.lifespan = 1800;
@@ -131,9 +139,11 @@ var play_state = {
         this.ship.animations.add('up', [5,4,3,2,1,0], 15, false);
         this.ship.animations.add('up_down', [0,1,2,3,4,5,6], 15, false);
         this.ship.animations.add('down_up', [11,10,9,8,7,6], 15, false);
+        this.ship.health = 1;
     },
 
     create_background_stars:function(){
+        var i;
         this.star1 = this.make.sprite(0, 0, 'star1');
         this.star2 = this.make.sprite(0, 0, 'star2');
         this.stars = [];
@@ -141,32 +151,30 @@ var play_state = {
         this.texture2 = this.add.renderTexture(400, 500, 'texture2');
         this.add.sprite(0, 0, this.texture1);
         this.add.sprite(0, 0, this.texture2);
-        for (var i = 0; i < 100; i++){
+        for (i = 0; i < 100; i++)
             this.stars.push( {
                 x: this.world.randomX,
                 y: this.world.randomY,
                 speed: -1,
                 texture: this.texture1
             });
-        }
-        for (i = 100; i < 150; i++){
+        for (i = 100; i < 150; i++)
             this.stars.push( {
                 x: this.world.randomX,
                 y: this.world.randomY,
                 speed: -1.5,
                 texture: this.texture2
             });
-        }
     },
 
     make_background_stars:function(){
-        for (var i = 0; i < 150; i++){
+        var star, i;
+        for (i = 0; i < 150; i++){
             this.stars[i].x += this.stars[i].speed;
             if (this.stars[i].x < -32){
                 this.stars[i].y = this.world.randomY;
                 this.stars[i].x = 432;
             }
-            var star;
             if (this.stars[i].texture == this.texture1)
                 star = this.star1;
             else
