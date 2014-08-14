@@ -1,7 +1,6 @@
 /* global Phaser */
-'use strict';
+'use strict';    
 var play_state = {
-
     create: function() {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.fireButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -33,8 +32,8 @@ var play_state = {
     },
     
     destroy_bullet_meteorite:function(bullet, meteorite){
-        bullet.kill();
-        meteorite.damage(1);
+        meteorite.damage(bullet.damage);
+        bullet.kill();        
         if(meteorite.health === 0)
             this.aumentar_puntaje();
     },
@@ -46,7 +45,6 @@ var play_state = {
                 return;
             bullet.lifespan = 2200;
             bullet.reset(this.ship.body.x+20, this.ship.body.y+8);
-            bullet.animations.play('redBullet');
             bullet.body.velocity.x= 150;
             this.fire_time = this.time.now +400;
         }
@@ -57,9 +55,9 @@ var play_state = {
         this.bullets.createMultiple(6, 'bullet');
         this.bullets.forEach(function (e) {
                 e.animations.add('redBullet', [0,1,2,3], 30, true);
-            }, this);
-        this.bullets.forEach(function (e) {
                 e.animations.add('lowBlueBullet', [4,5,6,7], 30, true);
+                e.animations.play('redBullet');
+                e.damage = 1;
             }, this);
         this.bullets.enableBody = true;
         this.physics.enable(this.bullets, Phaser.Physics.ARCADE);
@@ -109,7 +107,7 @@ var play_state = {
         var s = ((Math.random()*275)+240);
         var t = ((Math.random()*275)+240);
         if ((Math.abs(x-w))<42)
-            x += 45;
+            x += (Math.random()*475);
         this.add_meteorite(400, x, s);
         this.add_meteorite(400, w, t);
     },
@@ -133,7 +131,6 @@ var play_state = {
         this.ship.animations.add('up', [5,4,3,2,1,0], 15, false);
         this.ship.animations.add('up_down', [0,1,2,3,4,5,6], 15, false);
         this.ship.animations.add('down_up', [11,10,9,8,7,6], 15, false);
-        this.ship.animations.frame = 6;
     },
 
     create_background_stars:function(){
@@ -205,6 +202,16 @@ var play_state = {
 
     aumentar_puntaje: function(){
         score += 1;
+        switch (score) {
+        case 10:
+            this.bullets.forEach(function (e) {
+                e.animations.play('lowBlueBullet');
+                e.damage = 2;
+            }, this);
+            break;
+        default:
+            break;
+        }
         this.label_score.text = score;
     },
 
