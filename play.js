@@ -40,26 +40,49 @@ var play_state = {
 
     damage_meteorite:function(bullet, meteorite){
         meteorite.damage(bullet.danio);
-        bullet.kill();        
+        bullet.kill(); 
         if(meteorite.health === 0)
             this.aumentar_puntaje();
     },
 
     fire_bullet:function(){
         if(this.fireButton.isDown && this.ship.alive && (this.time.now > this.fire_time)) {
-            var bullet = this.bullets.getFirstDead();
-            if(!bullet)
-                return;
-            bullet.lifespan = 2200;
-            bullet.reset(this.ship.body.x+20, this.ship.body.y+8);
-            bullet.body.velocity.x= 150;
-            this.fire_time = this.time.now +400;
+            switch(this.ship.fireModifier){
+            case 1:
+                this.normal_bullet(0, 150, 0, 20, 8);
+                break;
+            case 2:
+                this.multi_bullet();
+                break;
+            default:
+                break;
+            }
         }
+    },
+
+    normal_bullet: function(angulo, velX, velY, difXship, difYship){
+        var bullet = this.bullets.getFirstDead();
+        if(!bullet)
+            return;
+        bullet.angle=angulo;
+        bullet.lifespan = 2200;
+        bullet.reset(this.ship.body.x+difXship, this.ship.body.y+difYship);
+        bullet.body.velocity.x= velX;
+        bullet.body.velocity.y= velY;
+        this.fire_time = this.time.now +400;
+    },
+
+    multi_bullet: function(){
+        this.normal_bullet(-45, 150, -100, 5, 8);
+        this.normal_bullet(-30, 150, -50, 10, 8);
+        this.normal_bullet(0, 150, 0, 20, 8);
+        this.normal_bullet(30, 150, 50, 10, 8);
+        this.normal_bullet(45, 150, 100, 5, 8);
     },
 
     create_bullets:function(){
         this.bullets = this.add.group();
-        this.bullets.createMultiple(6, 'bullet');
+        this.bullets.createMultiple(30, 'bullet');
         this.bullets.forEach(function (e) {
                 e.animations.add('redBullet', [0,1,2,3], 30, true);
                 e.animations.add('lowBlueBullet', [4,5,6,7], 30, true);
@@ -140,6 +163,7 @@ var play_state = {
         this.ship.animations.add('up_down', [0,1,2,3,4,5,6], 15, false);
         this.ship.animations.add('down_up', [11,10,9,8,7,6], 15, false);
         this.ship.health = 1;
+        this.ship.fireModifier = 1;
     },
 
     create_background_stars:function(){
@@ -168,7 +192,7 @@ var play_state = {
     },
 
     make_background_stars:function(){
-        var star, i;
+        var i,star;
         for (i = 0; i < 150; i++){
             this.stars[i].x += this.stars[i].speed;
             if (this.stars[i].x < -32){
@@ -214,8 +238,23 @@ var play_state = {
         case 10:
             this.bullets.forEach(function (e) {
                 e.animations.play('lowBlueBullet');
-                e.damage = 2;
+                e.danio = 2;
             }, this);
+            this.ship.fireModifier = 1;
+            break;
+        case 20:
+            this.bullets.forEach(function (e) {
+                e.animations.play('redBullet');
+                e.danio = 1;
+            }, this);
+            this.ship.fireModifier = 2;
+            break;
+        case 30:
+            this.bullets.forEach(function (e) {
+                e.animations.play('lowBlueBullet');
+                e.danio = 2;
+            }, this);
+            this.ship.fireModifier = 2;
             break;
         default:
             break;
