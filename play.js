@@ -46,7 +46,7 @@ var play_state = {
                 return;
             bullet.lifespan = 2200;
             bullet.reset(this.ship.body.x+20, this.ship.body.y+8);
-            bullet.animations.play('w');
+            bullet.animations.play('redBullet');
             bullet.body.velocity.x= 150;
             this.fire_time = this.time.now +400;
         }
@@ -56,7 +56,10 @@ var play_state = {
         this.bullets = this.add.group();
         this.bullets.createMultiple(6, 'bullet');
         this.bullets.forEach(function (e) {
-                e.animations.add('w', [5], 7, true);
+                e.animations.add('redBullet', [0,1,2,3], 30, true);
+            }, this);
+        this.bullets.forEach(function (e) {
+                e.animations.add('lowBlueBullet', [4,5,6,7], 30, true);
             }, this);
         this.bullets.enableBody = true;
         this.physics.enable(this.bullets, Phaser.Physics.ARCADE);
