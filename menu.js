@@ -17,7 +17,7 @@
         var heightStyle = 20;
         var fireText = this.add.text(xControl, yControl, 'Fire: Space Bar', controlStyle);
         var upText = this.add.text(xControl, yControl+heightStyle, 'Move up: Up arrow', controlStyle);
-        var downText = this.add.text(xControl, yControl+(heightStyle*2), 'Dove down: Down arrow', controlStyle);
+        var downText = this.add.text(xControl, yControl+(heightStyle*2), 'Move down: Down arrow', controlStyle);
 
         if (score > 0) {
             var score_label = this.add.text(xCenter, yCenter+50, 'score: ' + score, style);
