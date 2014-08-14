@@ -5,7 +5,9 @@
         var xControl = 20, yControl = game.world.height-80;
         var xCenter = game.world.width/2, yCenter = game.world.height/2;
         var startButtom = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
         startButtom.onDown.add(this.start, this);
+        this.input.onDown.add(this.start, this);
         
         var style = { font: '30px Arial', fill: '#ffffff' };
         var text = this.add.text(xCenter, yCenter-50, 'Press Space to start', style);
