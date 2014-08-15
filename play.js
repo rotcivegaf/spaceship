@@ -73,11 +73,11 @@ var play_state = {
     },
 
     multi_bullet: function(){
-        this.normal_bullet(-45, 150, -100, 5, 8);
-        this.normal_bullet(-30, 150, -50, 10, 8);
-        this.normal_bullet(0, 150, 0, 20, 8);
-        this.normal_bullet(30, 150, 50, 10, 8);
-        this.normal_bullet(45, 150, 100, 5, 8);
+        this.normal_bullet(-15, 150, -40, 5, 8);
+        this.normal_bullet(-10, 150, -20, 12, 8);
+        this.normal_bullet(0, 150, 0, 15, 8);
+        this.normal_bullet(10, 150, 20, 14 , 8);
+        this.normal_bullet(15, 150, 40, 7, 8);
     },
 
     create_bullets:function(){
@@ -199,13 +199,13 @@ var play_state = {
                 this.stars[i].y = this.world.randomY;
                 this.stars[i].x = 432;
             }
-            if (this.stars[i].texture == this.texture1)
+            if (this.stars[i].texture == this.texture1){
                 star = this.star1;
-            else
+            }else
                 star = this.star2;
-            if (i === 0 || i == 100)
+            if (i === 0 || i == 100){
                 this.stars[i].texture.renderXY(star, this.stars[i].x, this.stars[i].y, true);
-            else
+            }else
                 this.stars[i].texture.renderXY(star, this.stars[i].x, this.stars[i].y, false);
         }
     },
