@@ -1,6 +1,6 @@
 /* global Phaser */
 'use strict';
-var game = new Phaser.Game(400, 500, Phaser.AUTO, 'game_div');
+var game = new Phaser.Game(320, 480, Phaser.AUTO, 'game_div');
 
 var score = 0;
 
